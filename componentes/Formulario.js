@@ -9,6 +9,7 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
+import moment from 'moment';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import shortid from 'shortid';
 
@@ -32,18 +33,10 @@ const Formulario = ({citas, setCitas, setMostrarForm}) => {
   };
 
   const handleConfirmDate = (date) => {
-
-    console.log(date);
-
-    const opcionesFecha = {year: 'numeric', month: 'long', day: '2-digit'};
-    const opcionesHora = {hour12: 'true', hour: '2-digit', minute: '2-digit'};
-    setFecha(
-      date.toLocaleDateString('es-ES', opcionesFecha) +
-        '\n' +
-        date.toLocaleTimeString('es-ES', opcionesHora),
-    );
-    console.log(date);
-
+   
+    console.log(moment(date).format("hh:mm A"));
+    setFecha(moment(date).format("DD-MM-YYYY") + '\n'+
+      moment(date).format("hh:mm A"))
     hideDatePicker();
   };
 
