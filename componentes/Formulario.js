@@ -11,55 +11,42 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import CheckBox from '@react-native-community/checkbox';
 import shortid from 'shortid';
 
 const Formulario = ({citas, setCitas, setMostrarForm}) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
-  const [paciente, setPaciente] = useState('');
-  const [responsable, setResponsable] = useState('');
+  const [cliente, setCliente] = useState('');
   const [telefono, setTelefono] = useState('');
-  const [sintomas, setSintomas] = useState('');
-
-  // Control del CheckBox
-  const [toggleCheckBox, setToggleCheckBox] = useState(false);
-
   const [fecha, setFecha] = useState(''); //Usado para guardar la fecha y hora
-
   //Mostrar u ocultar DatePicker
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
-
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
-
+  // Confirmar la fecha
   const handleConfirmDate = (date) => {
-    console.log(moment(date).format('hh:mm A'));
     setFecha(
       moment(date).format('DD-MM-YYYY') + '\n' + moment(date).format('hh:mm A'),
     );
     hideDatePicker();
   };
-
   //Crear nueva Cita
   const crearNuevaCita = () => {
     //Validar que los campos no esten vacios
     if (
-      paciente.trim() === '' ||
-      responsable.trim() === '' ||
+      cliente.trim() === '' ||
       telefono.trim() === '' ||
-      fecha.trim() === '' ||
-      sintomas.trim() === ''
+      fecha.trim() === ''
     ) {
       // Algo esta vacio
       mostrarAlerta();
       return;
     }
-    //Crear nueva cita
-    const cita = {paciente, responsable, telefono, sintomas, fecha};
+    //Si no estan vacios, crear nueva cita
+    const cita = {cliente, telefono, fecha};
 
     cita.id = shortid.generate();
     //Agregar al state
@@ -69,7 +56,6 @@ const Formulario = ({citas, setCitas, setMostrarForm}) => {
     //Ocultar el formulario
     setMostrarForm(false);
   };
-
   //Muestra la alerta si falla la validacion de campos
   const mostrarAlerta = () => {
     Alert.alert(
@@ -82,32 +68,33 @@ const Formulario = ({citas, setCitas, setMostrarForm}) => {
       ],
     );
   };
+  
+
   return (
     <>
       <ScrollView style={styles.formulario}>
+        {/* Nombre y Apellido */}
         <View>
-          <Text style={styles.label}>Paciente:</Text>
+          <Text style={styles.label}>Nombre y Apellido</Text>
           <TextInput
             style={styles.input}
-            onChangeText={(texto) => setPaciente(texto)}
+            onChangeText={(texto) => setCliente(texto)}
           />
         </View>
-
+        {/* Telefono */}
         <View>
-          <Text style={styles.label}>Responsable:</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={(texto) => setResponsable(texto)}
-          />
-        </View>
-
-        <View>
-          <Text style={styles.label}>Telefono:</Text>
+          <Text style={styles.label}>Telefono Contacto</Text>
           <TextInput
             style={styles.input}
             onChangeText={(texto) => setTelefono(texto)}
-            keyboardType="numeric"
+            keyboardType={'numeric'}
           />
+        </View>
+        {/* Checkboxes */}
+        <View>
+          
+
+          
         </View>
 
         <View>
@@ -121,22 +108,6 @@ const Formulario = ({citas, setCitas, setMostrarForm}) => {
             locale="es_ES"
           />
           <Text>{fecha}</Text>
-        </View>
-
-        <View>
-          <Text style={styles.label}>Sintomas:</Text>
-          <TextInput
-            multiline
-            style={styles.input}
-            onChangeText={(texto) => setSintomas(texto)}
-          />
-        </View>
-        <View>
-          <CheckBox
-            disabled={false}
-            value={toggleCheckBox}
-            onValueChange={(newValue) => setToggleCheckBox(newValue)}
-          />
         </View>
 
         <View>

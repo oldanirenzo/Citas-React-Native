@@ -7,34 +7,31 @@ import {
   ToastAndroid,
 } from 'react-native';
 
-const Cita = ({item, eliminarPaciente}) => {
+const Cita = ({item, eliminarCliente}) => {
+  
   const dialogoEliminar = (id) => {
     console.log('Eliminando...');
-    eliminarPaciente(id);
+    eliminarCliente(id);
     ToastAndroid.show('Eliminando...', ToastAndroid.SHORT);
   };
 
   return (
     <View style={styles.cita}>
       <View>
-        <Text style={styles.label}>Paciente</Text>
-        <Text style={styles.texto}>{item.paciente}</Text>
+        <Text style={styles.label}>Cliente</Text>
+        <Text style={styles.texto}>{item.cliente}</Text>
       </View>
       <View>
-        <Text style={styles.label}>Responsable</Text>
-        <Text style={styles.texto}>{item.responsable}</Text>
-      </View>
-      <View>
-        <Text style={styles.label}>Telefono</Text>
+        <Text style={styles.label}>Teléfono</Text>
         <Text style={styles.texto}>{item.telefono}</Text>
+      </View>
+      <View>
+        <Text style={styles.label}>Tratamientos</Text>
+        <Text style={styles.texto}>{item.tratamiento}</Text>
       </View>
       <View>
         <Text style={styles.label}>Fecha</Text>
         <Text style={styles.texto}>{item.fecha}</Text>
-      </View>
-      <View>
-        <Text style={styles.label}>Sintoma</Text>
-        <Text style={styles.texto}>{item.sintomas}</Text>
       </View>
 
       <View>

@@ -9,6 +9,7 @@ import {
   Keyboard,
   Platform,
   Image,
+  ScrollView,
 } from 'react-native';
 import Cita from './componentes/Cita';
 import Formulario from './componentes/Formulario';
@@ -19,7 +20,7 @@ const App = () => {
   const [citas, setCitas] = useState([]);
 
   //Elimina los pacientes del state
-  const eliminarPaciente = (id) => {
+  const eliminarCliente = (id) => {
     setCitas((citasActuales) => {
       return citasActuales.filter((cita) => cita.id !== id);
     });
@@ -30,53 +31,52 @@ const App = () => {
   };
 
   return (
-    <>
-      <TouchableWithoutFeedback
-        onPress={() => {
-          cerrarTeclado();
-        }}>
-        <View style={styles.contenedor}>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        cerrarTeclado();
+      }}>
+      <View style={styles.contenedor}>
+        {mostrarForm ? null : (
           <Image
             style={styles.img}
             source={require('./assets/images/JirehSaludEstetica.jpeg')}
           />
-          <View>
-            <TouchableHighlight
-              onPress={() => setMostrarForm(!mostrarForm)}
-              style={styles.btnMostrarForm}>
-              <Text style={styles.textoMostrarForm}>
-                {mostrarForm ? 'Cancelar Nueva Cita' : 'Crear Nueva Cita'}
-              </Text>
-            </TouchableHighlight>
-          </View>
-
-          <View style={styles.contenido}>
-            {mostrarForm ? (
-              <>
-                <Text style={styles.titulo}>Crear Nueva Cita</Text>
-                <Formulario
-                  citas={citas}
-                  setCitas={setCitas}
-                  setMostrarForm={setMostrarForm}
-                />
-              </>
-            ) : (
-              <>
-                <Text style={styles.titulo}></Text>
-                <FlatList
-                  style={styles.listado}
-                  data={citas}
-                  renderItem={({item}) => (
-                    <Cita item={item} eliminarPaciente={eliminarPaciente} />
-                  )}
-                  keyExtractor={(cita) => cita.id}
-                />
-              </>
-            )}
-          </View>
+        )}
+        <View>
+          <TouchableHighlight
+            onPress={() => setMostrarForm(!mostrarForm)}
+            style={styles.btnMostrarForm}>
+            <Text style={styles.textoMostrarForm}>
+              {mostrarForm ? 'Cancelar Nueva Cita' : 'Crear Nueva Cita'}
+            </Text>
+          </TouchableHighlight>
         </View>
-      </TouchableWithoutFeedback>
-    </>
+
+        <View style={styles.contenido}>
+          {mostrarForm ? (
+            <ScrollView>
+              <Formulario
+                citas={citas}
+                setCitas={setCitas}
+                setMostrarForm={setMostrarForm}
+              />
+            </ScrollView>
+          ) : (
+            <>
+              <Text style={styles.titulo}></Text>
+              <FlatList
+                style={styles.listado}
+                data={citas}
+                renderItem={({item}) => (
+                  <Cita item={item} eliminarCliente={eliminarCliente} />
+                )}
+                keyExtractor={(cita) => cita.id}
+              />
+            </>
+          )}
+        </View>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
