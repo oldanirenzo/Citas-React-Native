@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import CheckBox from '@react-native-community/checkbox';
 import shortid from 'shortid';
 
 const Formulario = ({citas, setCitas, setMostrarForm}) => {
@@ -20,6 +21,9 @@ const Formulario = ({citas, setCitas, setMostrarForm}) => {
   const [responsable, setResponsable] = useState('');
   const [telefono, setTelefono] = useState('');
   const [sintomas, setSintomas] = useState('');
+
+  // Control del CheckBox
+  const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
   const [fecha, setFecha] = useState(''); //Usado para guardar la fecha y hora
 
@@ -33,10 +37,10 @@ const Formulario = ({citas, setCitas, setMostrarForm}) => {
   };
 
   const handleConfirmDate = (date) => {
-   
-    console.log(moment(date).format("hh:mm A"));
-    setFecha(moment(date).format("DD-MM-YYYY") + '\n'+
-      moment(date).format("hh:mm A"))
+    console.log(moment(date).format('hh:mm A'));
+    setFecha(
+      moment(date).format('DD-MM-YYYY') + '\n' + moment(date).format('hh:mm A'),
+    );
     hideDatePicker();
   };
 
@@ -125,6 +129,13 @@ const Formulario = ({citas, setCitas, setMostrarForm}) => {
             multiline
             style={styles.input}
             onChangeText={(texto) => setSintomas(texto)}
+          />
+        </View>
+        <View>
+          <CheckBox
+            disabled={false}
+            value={toggleCheckBox}
+            onValueChange={(newValue) => setToggleCheckBox(newValue)}
           />
         </View>
 
