@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Platform,
+  Image,
 } from 'react-native';
 import Cita from './componentes/Cita';
 import Formulario from './componentes/Formulario';
@@ -35,8 +36,10 @@ const App = () => {
           cerrarTeclado();
         }}>
         <View style={styles.contenedor}>
-          <Text style={styles.titulo}>Administrador de Citas</Text>
-
+          <Image
+            style={styles.img}
+            source={require('./assets/images/JirehSaludEstetica.jpeg')}
+          />
           <View>
             <TouchableHighlight
               onPress={() => setMostrarForm(!mostrarForm)}
@@ -59,11 +62,7 @@ const App = () => {
               </>
             ) : (
               <>
-                <Text style={styles.titulo}>
-                  {citas.length > 0
-                    ? 'Administra tus citas'
-                    : 'No hay citas, agrega una'}
-                </Text>
+                <Text style={styles.titulo}></Text>
                 <FlatList
                   style={styles.listado}
                   data={citas}
@@ -90,7 +89,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contenedor: {
-    backgroundColor: '#AA076B',
+    backgroundColor: '#00C1CA',
     flex: 1,
   },
   titulo: {
@@ -103,13 +102,18 @@ const styles = StyleSheet.create({
   },
   btnMostrarForm: {
     padding: 10,
-    backgroundColor: '#7d024e',
+    backgroundColor: '#0BA09C',
     marginTop: 10,
   },
   textoMostrarForm: {
     color: '#FFF',
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  img: {
+    width: '100%',
+    height: 220,
+    marginVertical: 5,
   },
 });
 
