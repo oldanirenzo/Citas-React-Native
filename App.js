@@ -72,7 +72,7 @@ const App = () => {
         {/* Vistas del Formulario */}
         <View style={styles.contenido}>
           {mostrarForm ? (
-            <ScrollView>
+            <ScrollView style={styles.margenes}>
               <Formulario
                 citas={citas}
                 setCitas={setCitas}
@@ -82,7 +82,7 @@ const App = () => {
           ) : mostrarTurnos ? (
             <>
               <FlatList
-                style={styles.listado, styles.margenes}
+                style={(styles.listado, styles.margenes)}
                 data={citas}
                 renderItem={({item}) => (
                   <Cita item={item} eliminarCliente={eliminarCliente} />
