@@ -11,14 +11,16 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import DropDownPicker from 'react-native-dropdown-picker';
+import {Platform} from 'react-native';
 import shortid from 'shortid';
 
 const Formulario = ({citas, setCitas, setMostrarForm}) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
   const [cliente, setCliente] = useState('');
   const [telefono, setTelefono] = useState('');
   const [fecha, setFecha] = useState(''); //Usado para guardar la fecha y hora
+  const [tratamiento, setTratamiento] = useState('Depilación');
   //Mostrar u ocultar DatePicker
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -46,7 +48,7 @@ const Formulario = ({citas, setCitas, setMostrarForm}) => {
       return;
     }
     //Si no estan vacios, crear nueva cita
-    const cita = {cliente, telefono, fecha};
+    const cita = {cliente, telefono, fecha, tratamiento};
 
     cita.id = shortid.generate();
     //Agregar al state
@@ -68,7 +70,37 @@ const Formulario = ({citas, setCitas, setMostrarForm}) => {
       ],
     );
   };
-  
+  //Lista de items que aparecen en el DropDown Picker
+  const item = [
+    {
+      label: 'Depilación',
+      value: 'Depilación',
+    },
+    {
+      label: 'Esmaltado',
+      value: 'Esmaltado',
+    },
+    {
+      label: 'Velaslim',
+      value: 'Velaslim',
+    },
+    {
+      label: 'Body Up',
+      value: 'Body Up',
+    },
+    {
+      label: 'Limpieza Facial',
+      value: 'Limpieza Facial',
+    },
+    {
+      label: 'Perfilado Cejas',
+      value: 'Perfilado Cejas',
+    },
+    {
+      label: 'Perfilado Pestañas',
+      value: 'Perfilado Pestañas',
+    },
+  ];
 
   return (
     <>
@@ -90,14 +122,29 @@ const Formulario = ({citas, setCitas, setMostrarForm}) => {
             keyboardType={'numeric'}
           />
         </View>
-        {/* Checkboxes */}
-        <View>
-          
-
-          
+        {/* DropDown Picker */}
+        <View
+          style={{
+            ...(Platform.OS !== 'android' && {
+              zIndex: 10,
+            }),
+          }}>
+          <Text style={styles.label}>Tratamiento</Text>
+          <DropDownPicker
+            items={item}
+            defaultValue={'Depilación'}
+            containerStyle={{height: 40}}
+            style={{backgroundColor: '#fafafa'}}
+            itemStyle={{
+              justifyContent: 'flex-start',
+            }}
+            dropDownStyle={{backgroundColor: '#fafafa'}}
+            onChangeItem={({value}) => setTratamiento(value)}
+            showArrow={false}
+          />
         </View>
-
-        <View>
+        {/* Fecha y Hora */}
+        <View style={{zIndex: 10}}>
           <Text style={styles.label}>Fecha y Hora:</Text>
           <Button title="Seleccionar Fecha y Hora" onPress={showDatePicker} />
           <DateTimePickerModal
@@ -109,12 +156,12 @@ const Formulario = ({citas, setCitas, setMostrarForm}) => {
           />
           <Text>{fecha}</Text>
         </View>
-
+        {/* Boton para guardar */}
         <View>
           <TouchableHighlight
             onPress={() => crearNuevaCita()}
             style={styles.btnSubmit}>
-            <Text style={styles.textoSubmit}>Crear Cita</Text>
+            <Text style={styles.textoSubmit}>Guardar Turno</Text>
           </TouchableHighlight>
         </View>
       </ScrollView>
