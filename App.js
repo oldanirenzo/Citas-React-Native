@@ -15,7 +15,8 @@ import Cita from './componentes/Cita';
 import Formulario from './componentes/Formulario';
 
 const App = () => {
-  const [mostrarForm, setMostrarForm] = useState(false);
+  const [mostrarForm, setMostrarForm] = useState(false); //Mostrar el formulario ( Empieza en falso)
+  const [mostrarTurnos, setMostrarTurnos] = useState(false); //Mostrar los turnos dados ( Empieza en falso)
 
   const [citas, setCitas] = useState([]);
 
@@ -36,22 +37,39 @@ const App = () => {
         cerrarTeclado();
       }}>
       <View style={styles.contenedor}>
-        {mostrarForm ? null : (
+        {mostrarForm || mostrarTurnos ? null : (
+          // Si el formulario o turnos estan cerrados, muestra la imagen, sino, la esconde
           <Image
             style={styles.img}
             source={require('./assets/images/JirehSaludEstetica.jpeg')}
           />
         )}
-        <View>
-          <TouchableHighlight
-            onPress={() => setMostrarForm(!mostrarForm)}
-            style={styles.btnMostrarForm}>
-            <Text style={styles.textoMostrarForm}>
-              {mostrarForm ? 'Cancelar Nueva Cita' : 'Crear Nueva Cita'}
-            </Text>
-          </TouchableHighlight>
-        </View>
+        {/* Boton Mostrar Formulario */}
+        {mostrarTurnos ? null : (
+          <View>
+            <TouchableHighlight
+              onPress={() => setMostrarForm(!mostrarForm)}
+              style={styles.btnMostrar}>
+              <Text style={styles.textoMostrar}>
+                {mostrarForm ? 'Cancelar Nuevo Turno' : 'Crear Nuevo Turno'}
+              </Text>
+            </TouchableHighlight>
+          </View>
+        )}
 
+        {/* Boton Mostrar Turnos */}
+        {mostrarForm ? null : (
+          <View>
+            <TouchableHighlight
+              onPress={() => setMostrarTurnos(!mostrarTurnos)}
+              style={styles.btnMostrar}>
+              <Text style={styles.textoMostrar}>
+                {mostrarTurnos ? 'Cerrar Turnos' : 'Mostrar Turnos'}
+              </Text>
+            </TouchableHighlight>
+          </View>
+        )}
+        {/* Vistas del Formulario */}
         <View style={styles.contenido}>
           {mostrarForm ? (
             <ScrollView>
@@ -61,11 +79,10 @@ const App = () => {
                 setMostrarForm={setMostrarForm}
               />
             </ScrollView>
-          ) : (
+          ) : mostrarTurnos ? (
             <>
-              <Text style={styles.titulo}></Text>
               <FlatList
-                style={styles.listado}
+                style={styles.listado, styles.margenes}
                 data={citas}
                 renderItem={({item}) => (
                   <Cita item={item} eliminarCliente={eliminarCliente} />
@@ -73,7 +90,7 @@ const App = () => {
                 keyExtractor={(cita) => cita.id}
               />
             </>
-          )}
+          ) : null}
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -92,20 +109,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#00C1CA',
     flex: 1,
   },
-  titulo: {
-    color: 'white',
-    fontSize: 24,
-    fontWeight: 'bold',
+  margenes: {
     marginBottom: 20,
     marginTop: Platform.OS === 'android' ? 20 : 40,
-    textAlign: 'center',
   },
-  btnMostrarForm: {
+  btnMostrar: {
     padding: 10,
     backgroundColor: '#0BA09C',
     marginTop: 10,
   },
-  textoMostrarForm: {
+  textoMostrar: {
     color: '#FFF',
     fontWeight: 'bold',
     textAlign: 'center',
