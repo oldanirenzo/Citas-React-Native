@@ -15,7 +15,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import {Platform} from 'react-native';
 import shortid from 'shortid';
 
-const Formulario = ({citas, setCitas, setMostrarForm}) => {
+const Formulario = ({citas, setCitas, setMostrarForm, setStyleBtn}) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [cliente, setCliente] = useState('');
   const [telefono, setTelefono] = useState('');
@@ -54,7 +54,8 @@ const Formulario = ({citas, setCitas, setMostrarForm}) => {
     //Agregar al state
     const citaNueva = [...citas, cita];
     setCitas(citaNueva);
-
+    //Cambiar el color del boton crear/cancelar turno
+    setStyleBtn(true)
     //Ocultar el formulario
     setMostrarForm(false);
   };
@@ -101,6 +102,8 @@ const Formulario = ({citas, setCitas, setMostrarForm}) => {
       value: 'Perfilado Pestañas',
     },
   ];
+  
+  
 
   return (
     <>

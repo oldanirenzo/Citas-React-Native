@@ -17,6 +17,7 @@ import Formulario from './componentes/Formulario';
 const App = () => {
   const [mostrarForm, setMostrarForm] = useState(false); //Mostrar el formulario ( Empieza en falso)
   const [mostrarTurnos, setMostrarTurnos] = useState(false); //Mostrar los turnos dados ( Empieza en falso)
+  const [styleBtn, setStyleBtn] = useState(true) //Muestra el boton de color normal, pero 
 
   const [citas, setCitas] = useState([]);
 
@@ -30,6 +31,8 @@ const App = () => {
   const cerrarTeclado = () => {
     Keyboard.dismiss();
   };
+
+  const colorBtn = styleBtn ? styles.btnMostrar : styles.btnCancelar
 
   return (
     <TouchableWithoutFeedback
@@ -48,8 +51,9 @@ const App = () => {
         {mostrarTurnos ? null : (
           <View>
             <TouchableHighlight
-              onPress={() => setMostrarForm(!mostrarForm)}
-              style={styles.btnMostrar}>
+              onPress={() => (setMostrarForm(!mostrarForm), setStyleBtn(!styleBtn))}
+              style={colorBtn}
+              >
               <Text style={styles.textoMostrar}>
                 {mostrarForm ? 'Cancelar Nuevo Turno' : 'Crear Nuevo Turno'}
               </Text>
@@ -61,8 +65,8 @@ const App = () => {
         {mostrarForm ? null : (
           <View>
             <TouchableHighlight
-              onPress={() => setMostrarTurnos(!mostrarTurnos)}
-              style={styles.btnMostrar}>
+              onPress={() => (setMostrarTurnos(!mostrarTurnos),setStyleBtn(!styleBtn))}
+              style={colorBtn}>
               <Text style={styles.textoMostrar}>
                 {mostrarTurnos ? 'Cerrar Turnos' : 'Mostrar Turnos'}
               </Text>
@@ -77,6 +81,7 @@ const App = () => {
                 citas={citas}
                 setCitas={setCitas}
                 setMostrarForm={setMostrarForm}
+                setStyleBtn={setStyleBtn}
               />
             </ScrollView>
           ) : mostrarTurnos ? (
@@ -116,6 +121,11 @@ const styles = StyleSheet.create({
   btnMostrar: {
     padding: 10,
     backgroundColor: '#0BA09C',
+    marginTop: 10,
+  },
+  btnCancelar: {
+    padding: 10,
+    backgroundColor: 'red',
     marginTop: 10,
   },
   textoMostrar: {
